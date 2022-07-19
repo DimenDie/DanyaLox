@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Vector3 mousePos;
-    Vector3 input, skewedInput;
+    public Vector3 input, skewedInput, skewedInput2;
     Rigidbody rb;
     [SerializeField] Camera cam;
     [SerializeField] float movementSpeed, rotationSpeed;
     [SerializeField] LayerMask layerMask;
-    [SerializeField] float camAndPlayerAngle, playerAndCursorAngle;
+    [SerializeField] float playerAndCursorAngle;
     Transform playerLook;
     
     private void Start()
@@ -40,8 +40,7 @@ public class PlayerController : MonoBehaviour
     void GetInput()
     {
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")); // Инпути осей окда
-        camAndPlayerAngle = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.y); //Переменная хранит данніе положения камери
-        var _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, camAndPlayerAngle, 0)); // Сдвиг управления в зависимости положения камері для корректного ввода сторон света. Юзаю матрицу, потому что так в гайде сказали. У вектор3 нет ротейта(((
+        var _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0)); // Сдвиг управления в зависимости положения камері для корректного ввода сторон света. Юзаю матрицу, потому что так в гайде сказали. У вектор3 нет ротейта(((
         skewedInput = _isoMatrix.MultiplyPoint3x4(input); // Переменная, которая хранит сдвинутий інпут
     }
     void PlayerRotation()

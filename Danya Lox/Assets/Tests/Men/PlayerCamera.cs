@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour
     public float cameraSmoothTime, cameraMaxSpeed, maxCamDistance;
     PlayerController player;
     Vector3 cameraVelocity;
-    [SerializeField]Transform mouseObj;
+    public Transform mouseObj;
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
