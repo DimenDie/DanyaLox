@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour
     public float cameraSmoothTime, cameraMaxSpeed, maxCamDistance;
     PlayerController player;
     Vector3 cameraVelocity;
-    public Transform mouseObj;
+    public Transform mouseObj, pivotObj;
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
@@ -26,6 +26,6 @@ public class PlayerCamera : MonoBehaviour
                 mousePos = mouseObj.localPosition,
                 CamPosWithOffset = playerPos + mousePos;
         
-        transform.position = Vector3.SmoothDamp(transform.position, playerPos, ref cameraVelocity, cameraSmoothTime * Time.deltaTime, cameraMaxSpeed);
+        transform.position = Vector3.SmoothDamp(transform.position, pivotObj.position, ref cameraVelocity, cameraSmoothTime * Time.deltaTime, cameraMaxSpeed);
     }
 }

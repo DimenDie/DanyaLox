@@ -5,14 +5,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Vector3 mousePos;
-    public Vector3 input, skewedInput, skewedInput2;
+
+    float xInput, yInput, xMovement, yMovement;
     Rigidbody rb;
     [SerializeField] Camera cam;
     [SerializeField] float movementSpeed, rotationSpeed;
     [SerializeField] LayerMask layerMask;
     [SerializeField] float playerAndCursorAngle;
     Transform playerLook;
-    
+
+    private const float DegToRad = Mathf.PI / 180;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,28 +24,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
 
-        GetInput();
+        xInput = Input.GetAxisRaw("Horizontal");
+        yInput = Input.GetAxisRaw("Vertical");
+
+
+
         PlayerRotation();
-
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition); // Луч от єкрана к позіції мішкі
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
-            mousePos = raycastHit.point;
-    }
-    private void FixedUpdate() // ну ок да.
-    {
-        if (input.magnitude != 0)
-            rb.velocity = (skewedInput * Time.deltaTime * movementSpeed * 10);
-        else
-            rb.velocity = Vector3.zero;
+        PointerPosition();
+        PlayerMovement();
     }
 
-    void GetInput()
-    {
-        input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")); // Инпути осей окда
-        var _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0)); // Сдвиг управления в зависимости положения камері для корректного ввода сторон света. Юзаю матрицу, потому что так в гайде сказали. У вектор3 нет ротейта(((
-        skewedInput = _isoMatrix.MultiplyPoint3x4(input); // Переменная, которая хранит сдвинутий інпут
-    }
+
+
     void PlayerRotation()
     {
         Ray playerSight = new Ray(transform.position, transform.forward);
@@ -50,4 +45,36 @@ public class PlayerController : MonoBehaviour
         playerAndCursorAngle = Vector3.SignedAngle(playerSight.direction, cursorSight.direction, new Vector3(0, 1, 0));
         playerLook.rotation = Quaternion.RotateTowards(playerLook.rotation, Quaternion.Euler(0, playerAndCursorAngle, 0), rotationSpeed * 10 * Time.deltaTime);
     }    
+
+    void PointerPosition()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition); // Луч от єкрана к позіції мішкі
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
+            mousePos = raycastHit.point;
+    }    
+
+    void PlayerMovement()
+    {
+        if (yInput == 0 && xInput == 0) return;
+        else if (yInput != 0)
+            transform.Translate((mousePos - transform.position) * yInput * movementSpeed * Time.deltaTime / Vector3.Distance(transform.position, mousePos));
+        else
+            transform.Translate(( RotateVector(mousePos - transform.position, 90)) * -xInput * movementSpeed * Time.deltaTime / Vector3.Distance(transform.position, mousePos));
+
+    }
+
+    Vector3 RotateVector(Vector3 defaultVector ,int degrees)
+    {
+        Vector3 newVector = defaultVector;
+
+        float rad = degrees * DegToRad;
+
+        float x2 = defaultVector.x * Mathf.Cos(rad) - defaultVector.z * Mathf.Sin(rad);
+        float z2 = defaultVector.x * Mathf.Sin(rad) + defaultVector.z * Mathf.Cos(rad);
+       
+        newVector.x = x2;
+        newVector.z = z2;
+        
+        return newVector;
+    }
 }

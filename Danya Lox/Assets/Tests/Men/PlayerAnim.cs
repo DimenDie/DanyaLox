@@ -4,39 +4,30 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    Animator anim;
-    [SerializeField] float skewAngle, skewPower, skewSpeed;
-    [SerializeField]Transform targetDot;
-    PlayerController playerController;
-    PlayerCamera playerCamera;
-    Vector3 targetSkewPos, skewedInput2, defaultSkewPos;
+    Animator animator; 
+    int targetXCord, targetYCord;
+    float XCord, YCord;
+    public bool isMoving;
+    [SerializeField] float animSwapSpeed;
+    // Start is called before the first frame update
     void Start()
     {
-
-        anim = GetComponent<Animator>();
-        playerCamera = FindObjectOfType<PlayerCamera>();
-        playerController = FindObjectOfType<PlayerController>();
-
-        defaultSkewPos = targetDot.transform.localPosition;
+        animator = GetComponent<Animator>();
     }
 
+    // Update is called once per frame
     void Update()
     {
+        targetXCord = (int)Input.GetAxisRaw("Horizontal");
+        targetYCord = (int)Input.GetAxisRaw("Vertical");
 
-        
-        var input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")); // Инпути осей окда
+        XCord = Mathf.MoveTowards(XCord, targetXCord, animSwapSpeed * 0.01f);
+        YCord = Mathf.MoveTowards(YCord, targetYCord, animSwapSpeed * 0.01f);
 
-        //var _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, Mathf.DeltaAngle(transform.rotation.eulerAngles.y, targetDot.transform.rotation.eulerAngles.y) + skewAngle, 0));
-        var _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, skewAngle, 0));
-        skewedInput2 = _isoMatrix.MultiplyPoint3x4(input);
+        isMoving = new Vector2(targetXCord,targetYCord).magnitude != 0 ? true : false;
 
-
-        targetSkewPos = defaultSkewPos + skewedInput2 * skewPower;
-        targetDot.transform.localPosition = Vector3.MoveTowards(targetDot.transform.localPosition, targetSkewPos, skewSpeed * 0.01f);
-
-
-        Ray ray1 = new Ray(playerController.transform.position, playerCamera.mouseObj.transform.position);
-        Ray ray2 = new Ray(playerController.transform.position, playerController.transform.forward);
-        print(Vector3.SignedAngle(ray1.direction, ray2.direction, Vector3.up));
+        animator.SetBool("isMov", isMoving);
+        animator.SetFloat("BlendX", XCord);
+        animator.SetFloat("BlendY", YCord);
     }
 }
