@@ -265,13 +265,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousePos: {x: 0, y: 0, z: 0}
+  vectorInput: {x: 0, y: 0, z: 0}
+  skewedInput: {x: 0, y: 0, z: 0}
   cam: {fileID: 1112388883}
-  movementSpeed: 10
-  rotationSpeed: 35
+  movementSpeed: 5
+  rotationSpeed: 55
   layerMask:
     serializedVersion: 2
     m_Bits: 8
   playerAndCursorAngle: 0
+  trigger: 0
 --- !u!136 &432319178
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -938,6 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   animSwapSpeed: 2
+  skewAngle: -135
 --- !u!4 &1073716285647358644
 Transform:
   m_ObjectHideFlags: 0
