@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Vector3 mousePos, vectorInput, skewedInput;
+    public Vector3 mousePos, vectorInput, skewedInput, screenPos;
 
     float xInput, yInput;
 
@@ -53,15 +53,21 @@ public class PlayerController : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition); // Луч от єкрана к позіції мішкі
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
             mousePos = raycastHit.point;
+
+        screenPos = cam.ScreenToViewportPoint(Input.mousePosition);
+        screenPos.x -= 0.5f;
+        screenPos.z = screenPos.y - 0.5f;
+        screenPos.y = 0;
+        print(screenPos);
     }    
 
     void PlayerMovement()
     {
-        if (yInput == 0 && xInput == 0) return;
-        else if (yInput != 0)
+        
+        if (yInput != 0)
             transform.Translate((mousePos - transform.position).normalized * yInput * movementSpeed * Time.deltaTime );
-        else
-            transform.Translate(( RotateVector(mousePos - transform.position, 90)).normalized * -xInput * movementSpeed * Time.deltaTime );
+        if (xInput != 0)
+            transform.Translate((RotateVector(mousePos - transform.position, 90)).normalized * -xInput * movementSpeed * Time.deltaTime);
     }  
     
     void PlayerMovement2()

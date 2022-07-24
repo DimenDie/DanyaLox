@@ -267,6 +267,7 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0, z: 0}
   vectorInput: {x: 0, y: 0, z: 0}
   skewedInput: {x: 0, y: 0, z: 0}
+  screenPos: {x: 0, y: 0, z: 0}
   cam: {fileID: 1112388883}
   movementSpeed: 5
   rotationSpeed: 55
@@ -329,14 +330,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666217372}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1112388884}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!114 &666217374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,11 +350,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a62a87df19f8f4c889bb5586df7e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSmoothTime: 75
-  cameraMaxSpeed: 15
-  maxCamDistance: 2
   mouseObj: {fileID: 1923539966}
-  pivotObj: {fileID: 322093629}
+  camera: {fileID: 1112388883}
+  cameraSmoothTime: 200
+  cameraMaxSpeed: 10
+  maxDisplacementDistance: 8
+  displacementSmoothTime: 100
+  displacementMaxSpeed: 10
 --- !u!1 &1112388881
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,8 +433,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112388881}
-  m_LocalRotation: {x: 0.36098844, y: 0.35226196, z: -0.14952631, w: 0.8504357}
-  m_LocalPosition: {x: -4.1, y: 10, z: -4.1}
+  m_LocalRotation: {x: 0.39073107, y: -0.000000029802322, z: -0, w: 0.9205049}
+  m_LocalPosition: {x: 0, y: 13.55, z: -9.234815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 666217373}
