@@ -17,6 +17,8 @@ public class PlayerAnim : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    
+
     void Update()
     {
         if(playerController.trigger)
