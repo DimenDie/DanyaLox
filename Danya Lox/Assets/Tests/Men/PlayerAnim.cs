@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerAnim : MonoBehaviour
 {
     Vector3 vectorCord, skewedInput;
-    Animator animator; 
+    Animator animator;
+
     int targetXCord, targetYCord;
     float XCord, YCord;
     public bool isMoving;
@@ -21,6 +22,10 @@ public class PlayerAnim : MonoBehaviour
 
     void Update()
     {
+
+
+
+
         if(playerController.trigger)
         {
             targetXCord = (int)Input.GetAxisRaw("Horizontal");

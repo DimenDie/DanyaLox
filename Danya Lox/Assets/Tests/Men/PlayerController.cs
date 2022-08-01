@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
         screenPos.x -= 0.5f;
         screenPos.z = screenPos.y - 0.5f;
         screenPos.y = 0;
-        print(screenPos);
     }    
 
     void PlayerMovement()
